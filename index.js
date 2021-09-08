@@ -1,15 +1,25 @@
 import fs from 'node:fs';
 import fetch from 'node-fetch';
 
+// create directory "memes" if it does not exist yet
+
+if (!fs.existsSync('memes')) {
+  fs.mkdirSync('memes');
+}
+
 // stretch goal
 
 if (process.argv[2]) {
   if (process.argv[3] && process.argv[4]) {
     const url = `https://api.memegen.link/images/${process.argv[4]}/${process.argv[2]}/${process.argv[3]}`;
     const customFilename = `memes/custom_${process.argv[4]}_${process.argv[2]}_${process.argv[3]}.png`;
-    fetch(url).then((response) => {
-      response.body.pipe(fs.createWriteStream(customFilename));
-    });
+    fetch(url)
+      .then((response) => {
+        response.body.pipe(fs.createWriteStream(customFilename));
+      })
+      .catch(() => {
+        throw new Error("Couldn't download your meme. Sorry!");
+      });
   } else {
     console.log('Please give 3 inputs!');
   }
