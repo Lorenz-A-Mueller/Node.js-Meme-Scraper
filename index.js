@@ -10,32 +10,30 @@ let answerArray = [];
 if (!fs.existsSync('memes')) {
   fs.mkdirSync('memes');
 }
+
+// s
+
 console.log(chalk.red.bold.bgBlue(`\nNode.js Meme Scraper\n\n`));
-const answer = readline.question(
-  `Press Enter to download 10 memes.\nYou can also enter three words to create a custom meme. (Format: top, bottom, meme-template)\n`,
+const template = readline.question(
+  `Press Enter to download 10 memes or type in a template\n`,
 );
 
-// stretch goal
+// get custom Meme
 
-if (answer) {
-  answerArray = answer.split(' ');
-  console.log(answerArray);
+if (template) {
+  const topText = readline.question(`Enter the top text\n`);
+  const bottomText = readline.question(`Enter the bottom text\n`);
+  const url = `https://api.memegen.link/images/${template}/${topText}/${bottomText}`;
+  const customFilename = `memes/custom_${template}_${topText}_${bottomText}.png`;
+  fetch(url)
+    .then((response) => {
+      response.body.pipe(fs.createWriteStream(customFilename));
+    })
+    .catch(() => {
+      throw new Error("Couldn't download your meme. Sorry!");
+    });
 
-  if (answerArray[1] && answerArray[2]) {
-    const url = `https://api.memegen.link/images/${answerArray[2]}/${answerArray[0]}/${answerArray[1]}`;
-    const customFilename = `memes/custom_${answerArray[0]}_${answerArray[1]}_${answerArray[2]}.png`;
-    fetch(url)
-      .then((response) => {
-        response.body.pipe(fs.createWriteStream(customFilename));
-      })
-      .catch(() => {
-        throw new Error("Couldn't download your meme. Sorry!");
-      });
-  } else {
-    console.log('Please give 3 inputs!');
-  }
-
-  // default program
+  // default program (get 10 memes from site)
 } else {
   let pageString = '';
 
