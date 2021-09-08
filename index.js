@@ -1,3 +1,4 @@
+import fs from 'node:fs';
 import fetch from 'node-fetch';
 
 let pageString = '';
@@ -21,6 +22,18 @@ fetch('https://memegen-link-examples-upleveled.netlify.app/')
       jpgArray = jpgArray.slice(0, 10); // it contains 10 pics now
 
       console.log(jpgArray);
+
+      // save the images
+
+      for (let i = 0; i < 10; i++) {
+        let filename = 'memes/image_no_' + [i + 1] + '.jpg'; // create filename
+        console.log(filename);
+        console.log('memes/image.jpg');
+        console.log(jpgArray[i]);
+        fetch(jpgArray[i]).then((response) => {
+          response.body.pipe(fs.createWriteStream(filename));
+        });
+      }
     } catch (err) {
       console.log(err);
     }
