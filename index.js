@@ -25,7 +25,7 @@ if (template) {
   let topText = readline.question(`Enter the top text\n`);
   let bottomText = readline.question(`Enter the bottom text\n`);
   topText = topText.replace(/ /g, '_'); // website will convert underscore into whitespace
-  bottomText = topText.replace(/ /g, '_');
+  bottomText = bottomText.replace(/ /g, '_');
 
   const url = `https://api.memegen.link/images/${template}/${topText}/${bottomText}`;
   const customFilename = `memes/custom_${template}_${topText}_${bottomText}.png`;
