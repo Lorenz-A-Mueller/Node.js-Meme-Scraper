@@ -64,7 +64,6 @@ if (template) {
 
           progValue += 1;
           progBlockRepeat = '█' + '|█'.repeat(progValue - 1);
-          // console.log(`Creating File: ${filename}`);
           logUpdate(
             chalk.red.bold(
               `\nProgress: ${progBlockRepeat} ${progValue * 10}% `,
